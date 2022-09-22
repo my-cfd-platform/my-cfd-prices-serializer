@@ -58,6 +58,7 @@ pub struct BidAsk {
     pub id: String,
     pub bid: f64,
     pub ask: f64,
+    pub source: String,
 }
 
 impl BidAsk {

@@ -58,6 +58,7 @@ pub struct BidAsk {
     pub id: String,
     pub bid: f64,
     pub ask: f64,
+    pub source: String,
 }
 
 impl BidAsk {
@@ -66,16 +67,18 @@ impl BidAsk {
         let mut id = None;
         let mut bid = None;
         let mut ask = None;
+        let mut source = None;
         let mut no = 0;
 
         for line in src.split(' ') {
             match no {
-                0 => id = Some(line.to_string()),
-                1 => {
+                0 => {
                     date_time = BidAskDateTime::parse(line).into();
                 }
+                1 => id = Some(line.to_string()),
                 2 => bid = Some(line.parse::<f64>().unwrap()),
                 3 => ask = Some(line.parse::<f64>().unwrap()),
+                4 => source = line.to_string().into(),
                 _ => {}
             }
             no += 1;
@@ -85,13 +88,14 @@ impl BidAsk {
         let id = id?;
         let bid = bid?;
         let ask = ask?;
+        let source = source?;
 
         Self {
             date_time,
             id,
             bid,
             ask,
-
+            source,
         }
         .into()
     }
@@ -106,6 +110,8 @@ impl BidAsk {
         dest.extend_from_slice(self.bid.to_string().as_bytes());
         dest.push(' ' as u8);
         dest.extend_from_slice(self.ask.to_string().as_bytes());
+        dest.push(' ' as u8);
+        dest.extend_from_slice(self.source.as_bytes());
     }
 }
 

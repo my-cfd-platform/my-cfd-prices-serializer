@@ -30,7 +30,7 @@ impl BidAskContract {
         match self {
             BidAskContract::Ping => dest.extend_from_slice(b"PING"),
             BidAskContract::Pong => dest.extend_from_slice(b"PONG"),
-            BidAskContract::BidAsk(bid_ask) => bid_ask.serialize(dest),
+            BidAskContract::BidAsk(_) => {},
         }
     }
 
