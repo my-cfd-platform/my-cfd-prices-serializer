@@ -31,7 +31,8 @@ impl TcpSocketSerializer<BidAskContract> for SourceFeedSerializer {
         result
     }
 
-    fn serialize_ref(&self, contract: &BidAskContract) -> Vec<u8> {
+    fn serialize_ref(&self, _: &BidAskContract) -> Vec<u8> {
+        todo!()
         let mut result = Vec::with_capacity(MAX_PACKET_CAPACITY);
         contract.serialize(&mut result);
         result.extend_from_slice(CLCR);

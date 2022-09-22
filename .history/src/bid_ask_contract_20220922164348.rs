@@ -32,7 +32,8 @@ impl BidAskContract {
     pub fn is_bid_ask(&self) -> bool {
         match self {
             BidAskContract::Ping => false,
-            BidAskContract::Pong => false
+            BidAskContract::Pong => false,
+            BidAskContract::BidAsk(_) => true,
         }
     }
 }

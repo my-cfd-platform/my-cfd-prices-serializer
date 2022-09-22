@@ -29,7 +29,7 @@ impl BidAskContract {
         }
     }
 
-    pub fn is_bid_ask(&self) -> bool {
+    pub fn is_bid_ask(&self) -> bool {s
         match self {
             BidAskContract::Ping => false,
             BidAskContract::Pong => false

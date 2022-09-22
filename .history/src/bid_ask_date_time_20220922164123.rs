@@ -1,4 +1,3 @@
-use chrono::{Timelike, Datelike};
 use rust_extensions::date_time::DateTimeAsMicroseconds;
 
 const OUR_MARKER: u8 = 'O' as u8;
@@ -27,6 +26,7 @@ impl BidAskDateTime {
 
     pub fn serialize(&self, dest: &mut Vec<u8>) {
         match &self {
+            BidAskDateTime::Source(date_time) => {}
             BidAskDateTime::Our(date_time) => {
                 dest.push(OUR_MARKER as u8);
                 date_time_to_string(dest, date_time);
@@ -81,39 +81,39 @@ fn parse_date_time(line: &str) -> DateTimeAsMicroseconds {
     DateTimeAsMicroseconds::create(year, month, day, hour, min, sec, micro)
 }
 
-fn date_time_to_string(result: &mut Vec<u8>, dt: &DateTimeAsMicroseconds) {
-    let dt = dt.to_chrono_utc();
+// fn date_time_to_string(result: &mut Vec<u8>, dt: &DateTimeAsMicroseconds) {
+//     let dt = dt.to_chrono_utc();
 
-    result.extend_from_slice(dt.year().to_string().as_bytes());
+//     result.extend_from_slice(dt.year().to_string().as_bytes());
 
-    push_with_leading_zero(result, dt.month() as u8);
-    push_with_leading_zero(result, dt.day() as u8);
-    push_with_leading_zero(result, dt.hour() as u8);
-    push_with_leading_zero(result, dt.minute() as u8);
-    push_with_leading_zero(result, dt.second() as u8);
-    // result.push('.' as u8);
+//     push_with_leading_zero(result, dt.month() as u8);
+//     push_with_leading_zero(result, dt.day() as u8);
+//     push_with_leading_zero(result, dt.hour() as u8);
+//     push_with_leading_zero(result, dt.minute() as u8);
+//     push_with_leading_zero(result, dt.second() as u8);
+//     // result.push('.' as u8);
 
-    let mut ms_as_string = dt.nanosecond().to_string();
+//     let mut ms_as_string = dt.nanosecond().to_string();
 
-    let ms_as_slice = if ms_as_string.len() < 6 {
-        while ms_as_string.len() < 3 {
-            ms_as_string.push('0');
-        }
+//     let ms_as_slice = if ms_as_string.len() < 6 {
+//         while ms_as_string.len() < 3 {
+//             ms_as_string.push('0');
+//         }
 
-        &ms_as_string
-    } else {
-        &ms_as_string[..6]
-    };
+//         &ms_as_string
+//     } else {
+//         &ms_as_string[..6]
+//     };
 
-    result.extend_from_slice(ms_as_slice.as_bytes());
-}
+//     result.extend_from_slice(ms_as_slice.as_bytes());
+// }
 
-fn push_with_leading_zero(result: &mut Vec<u8>, value: u8) {
-    if value < 10 {
-        result.push('0' as u8);
-        let value = '0' as u8 + value;
-        result.push(value);
-    } else {
-        result.extend_from_slice(value.to_string().as_bytes());
-    }
-}
+// fn push_with_leading_zero(result: &mut Vec<u8>, value: u8) {
+//     if value < 10 {
+//         result.push('0' as u8);
+//         let value = '0' as u8 + value;
+//         result.push(value);
+//     } else {
+//         result.extend_from_slice(value.to_string().as_bytes());
+//     }
+// }

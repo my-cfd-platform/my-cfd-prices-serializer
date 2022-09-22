@@ -4,6 +4,7 @@ use super::BidAskDateTime;
 pub enum BidAskContract {
     Ping,
     Pong,
+    BidAsk(BidAsk),
 }
 
 impl BidAskContract {
@@ -18,21 +19,26 @@ impl BidAskContract {
         if src == "PING" {
             return Self::Ping;
         }
-        
-        return Self::Pong;
+        if src == "PONG" {
+            return Self::Pong;
+        }
+
+        Self::BidAsk(BidAsk::parse(src).unwrap())
     }
 
     pub fn serialize(&self, dest: &mut Vec<u8>) {
         match self {
             BidAskContract::Ping => dest.extend_from_slice(b"PING"),
-            BidAskContract::Pong => dest.extend_from_slice(b"PONG")
+            BidAskContract::Pong => dest.extend_from_slice(b"PONG"),
+            BidAskContract::BidAsk(_) => {},
         }
     }
 
     pub fn is_bid_ask(&self) -> bool {
         match self {
             BidAskContract::Ping => false,
-            BidAskContract::Pong => false
+            BidAskContract::Pong => false,
+            BidAskContract::BidAsk(_) => true,
         }
     }
 }
@@ -90,17 +96,17 @@ impl BidAsk {
         .into()
     }
 
-    pub fn serialize(&self, dest: &mut Vec<u8>) {
-        self.date_time.serialize(dest);
+    // pub fn serialize(&self, dest: &mut Vec<u8>) {
+    //     self.date_time.serialize(dest);
 
-        dest.push(' ' as u8);
-        dest.extend_from_slice(self.id.as_bytes());
-        dest.push(' ' as u8);
+    //     dest.push(' ' as u8);
+    //     dest.extend_from_slice(self.id.as_bytes());
+    //     dest.push(' ' as u8);
 
-        dest.extend_from_slice(self.bid.to_string().as_bytes());
-        dest.push(' ' as u8);
-        dest.extend_from_slice(self.ask.to_string().as_bytes());
-    }
+    //     dest.extend_from_slice(self.bid.to_string().as_bytes());
+    //     dest.push(' ' as u8);
+    //     dest.extend_from_slice(self.ask.to_string().as_bytes());
+    // }
 }
 
 #[cfg(test)]

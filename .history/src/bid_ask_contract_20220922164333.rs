@@ -18,21 +18,26 @@ impl BidAskContract {
         if src == "PING" {
             return Self::Ping;
         }
-        
-        return Self::Pong;
+        if src == "PONG" {
+            return Self::Pong;
+        }
+
+        Self::BidAsk(BidAsk::parse(src).unwrap())
     }
 
     pub fn serialize(&self, dest: &mut Vec<u8>) {
         match self {
             BidAskContract::Ping => dest.extend_from_slice(b"PING"),
-            BidAskContract::Pong => dest.extend_from_slice(b"PONG")
+            BidAskContract::Pong => dest.extend_from_slice(b"PONG"),
+            BidAskContract::BidAsk(_) => {},
         }
     }
 
     pub fn is_bid_ask(&self) -> bool {
         match self {
             BidAskContract::Ping => false,
-            BidAskContract::Pong => false
+            BidAskContract::Pong => false,
+            BidAskContract::BidAsk(_) => true,
         }
     }
 }

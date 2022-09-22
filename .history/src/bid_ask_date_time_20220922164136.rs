@@ -1,4 +1,3 @@
-use chrono::{Timelike, Datelike};
 use rust_extensions::date_time::DateTimeAsMicroseconds;
 
 const OUR_MARKER: u8 = 'O' as u8;
@@ -108,12 +107,12 @@ fn date_time_to_string(result: &mut Vec<u8>, dt: &DateTimeAsMicroseconds) {
     result.extend_from_slice(ms_as_slice.as_bytes());
 }
 
-fn push_with_leading_zero(result: &mut Vec<u8>, value: u8) {
-    if value < 10 {
-        result.push('0' as u8);
-        let value = '0' as u8 + value;
-        result.push(value);
-    } else {
-        result.extend_from_slice(value.to_string().as_bytes());
-    }
-}
+// fn push_with_leading_zero(result: &mut Vec<u8>, value: u8) {
+//     if value < 10 {
+//         result.push('0' as u8);
+//         let value = '0' as u8 + value;
+//         result.push(value);
+//     } else {
+//         result.extend_from_slice(value.to_string().as_bytes());
+//     }
+// }

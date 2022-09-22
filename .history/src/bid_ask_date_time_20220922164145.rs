@@ -1,4 +1,4 @@
-use chrono::{Timelike, Datelike};
+use chrono::Timelike;
 use rust_extensions::date_time::DateTimeAsMicroseconds;
 
 const OUR_MARKER: u8 = 'O' as u8;
